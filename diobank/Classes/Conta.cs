@@ -1,5 +1,6 @@
 ﻿using diobank.Enum;
 using System;
+using System.Text;
 
 namespace diobank.Classes
 {
@@ -65,6 +66,18 @@ namespace diobank.Classes
             if (Sacar(valorTransferencia))
                 contaDestino.Depositar(valorTransferencia);
         }
+
+        #region Sobreescrita
+        public override string ToString()
+        {
+            return new StringBuilder()
+                .AppendFormat("TipoConta {0} | ", Tipo)
+                .AppendFormat("Nome {0} | ", Nome)
+                .AppendFormat("Saldo {0} | ", Saldo.ToString("0.00"))
+                .AppendFormat("Crédito {0}", Credito.ToString("0.00"))
+                .ToString();
+        }
+        #endregion
         #endregion
     }
 }

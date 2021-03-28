@@ -6,6 +6,7 @@ namespace diobankTeste.Classes
 {
     public class ContaTeste
     {
+        #region Construtor
         [Fact]
         public void Construtor_PropriedadesDevemSerIguaisAoQueFoiPassado()
         {
@@ -20,6 +21,7 @@ namespace diobankTeste.Classes
             Assert.Equal(credito, conta.Credito);
             Assert.Equal(pessoaFisica, conta.Tipo);
         }
+        #endregion
 
         #region Sacar       
         [Theory]
@@ -122,6 +124,34 @@ namespace diobankTeste.Classes
 
             conta.Depositar(50);
             Assert.Equal(50, conta.Saldo);
+        }
+        #endregion
+
+        #region ToString
+        [Fact]
+        public void ToString_NaoDeveRetornarVazioOuNulo()
+        {
+            var conta = new Conta("", 100, 0, eTipoConta.PessoaFisica);
+
+            var retorno = conta.ToString();
+
+            Assert.NotNull(retorno);
+            Assert.NotEmpty(retorno);
+        }
+
+        [Fact]
+        public void ToString_DeveRetornarTextoDeAcordoComPropriedadesPassadas()
+        {
+            const string nome = "Conta Teste";
+            const double saldo = 100;
+            const double credito = 200;
+            const eTipoConta tipo = eTipoConta.PessoaJuridica;
+            var conta = new Conta(nome, saldo, credito, tipo);
+
+            var retorno = conta.ToString();
+
+            var retornoEsperado = $"TipoConta {tipo} | Nome {nome} | Saldo {saldo.ToString("0.00")} | Crédito {credito.ToString("0.00")}";
+            Assert.Equal(retornoEsperado, retorno);
         }
         #endregion
 

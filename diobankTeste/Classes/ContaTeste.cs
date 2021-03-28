@@ -22,6 +22,7 @@ namespace diobankTeste.Classes
             Assert.Equal(pessoaFisica, conta.Tipo);
         }
 
+        #region Sacar       
         [Theory]
         [InlineData(0, 0, 100, false)]
         [InlineData(50, 0, 100, true)]
@@ -46,7 +47,7 @@ namespace diobankTeste.Classes
         [InlineData(150, -50)]
         [InlineData(200, -100)]
         [InlineData(250, 100)]//saque inválido continua mesmo saldo
-        public void Sacar_DeveAlterarValorSaldo(double valorSaque, double saldoEsperado)
+        public void Sacar_DeveSubtrairValorSaqueDoValorSaldo(double valorSaque, double saldoEsperado)
         {
             var conta = new Conta("", 100, 100, eTipoConta.PessoaFisica);
 
@@ -56,7 +57,7 @@ namespace diobankTeste.Classes
         }
 
         [Fact]
-        public void Sacar_VariosSquesMesmaCnotaDeveAlterarSaldo()
+        public void Sacar_VariosSaquesMesmaContaDeveSubtrairSaldo()
         {
             var conta = new Conta("", 100, 100, eTipoConta.PessoaFisica);
 
@@ -72,5 +73,57 @@ namespace diobankTeste.Classes
             conta.Sacar(50);
             Assert.Equal(-50, conta.Saldo);
         }
+        #endregion
+
+        #region Depositar
+        [Fact]
+        public void Depositar_ValorDeposito0NaoDeveAlterarSaldo()
+        {
+            const double saldoInicial = 0;
+            var conta = new Conta("", saldoInicial, 0, eTipoConta.PessoaFisica);
+
+            conta.Depositar(0);
+
+            Assert.Equal(saldoInicial, conta.Saldo);
+        }
+
+        [Fact]
+        public void Depositar_ValorDepositoNegativoNaoDeveAlterarSaldo()
+        {
+            const double saldoInicial = 0;
+            var conta = new Conta("", saldoInicial, 0, eTipoConta.PessoaFisica);
+
+            conta.Depositar(-20);
+
+            Assert.Equal(saldoInicial, conta.Saldo);
+
+        }
+
+        [Fact]
+        public void Depositar_ValorDepositoDeveSomarValorDepositoSaldo()
+        {
+            const double valorDeposito = 20;
+            var conta = new Conta("", 0, 0, eTipoConta.PessoaFisica);
+
+            conta.Depositar(valorDeposito);
+
+            Assert.Equal(valorDeposito, conta.Saldo);
+        }
+
+        [Fact]
+        public void Depositar_VariosDepositosMesmaContaDeveSomarValoresAoSaldo()
+        {
+            var conta = new Conta("", -50, 0, eTipoConta.PessoaFisica);
+
+            conta.Depositar(20);
+            Assert.Equal(-30, conta.Saldo);
+
+            conta.Depositar(30);
+            Assert.Equal(0, conta.Saldo);
+
+            conta.Depositar(50);
+            Assert.Equal(50, conta.Saldo);
+        }
+        #endregion
     }
 }

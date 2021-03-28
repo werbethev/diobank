@@ -1,7 +1,6 @@
 ﻿using diobank.Classes;
 using diobank.Enum;
 using Xunit;
-using Xunit.Sdk;
 
 namespace diobankTeste.Classes
 {
@@ -123,6 +122,64 @@ namespace diobankTeste.Classes
 
             conta.Depositar(50);
             Assert.Equal(50, conta.Saldo);
+        }
+        #endregion
+
+        #region Transferir
+        [Fact]
+        public void Transferir_ValorTranferencia0OuNegativoNaoDeveAlterarSaldoDasContas()
+        {
+            const double saldoInicialContaOrigem = 100;
+            const double saldoInicialContaDestino = 0;
+            var contaOrigem = new Conta("", saldoInicialContaOrigem, 0, eTipoConta.PessoaFisica);
+            var contaDestino = new Conta("", saldoInicialContaDestino, 0, eTipoConta.PessoaFisica);
+
+            contaOrigem.Transferir(0, contaDestino);
+            contaOrigem.Transferir(-30, contaDestino);
+
+            Assert.Equal(saldoInicialContaOrigem, contaOrigem.Saldo);
+            Assert.Equal(saldoInicialContaDestino, contaDestino.Saldo);
+        }
+
+        [Fact]
+        public void Transferir_DeveSubtrairDeUmaContaSomarNaOutra()
+        {
+            const double valorTransferencia = 10.65;
+            var contaOrigem = new Conta("", 100, 0, eTipoConta.PessoaFisica);
+            var contaDestino = new Conta("", 0, 0, eTipoConta.PessoaFisica);
+
+            contaOrigem.Transferir(valorTransferencia, contaDestino);
+
+            Assert.Equal(89.35, contaOrigem.Saldo);
+            Assert.Equal(valorTransferencia, contaDestino.Saldo);
+        }
+
+        [Fact]
+        public void Transferir_UsandoValorCreditoDeveSubtrairDeUmaContaSomarNaOutra()
+        {
+            const double valorTransferencia = 50;
+            var contaOrigem = new Conta("", 0, 100, eTipoConta.PessoaFisica);
+            var contaDestino = new Conta("", 0, 0, eTipoConta.PessoaFisica);
+
+            contaOrigem.Transferir(valorTransferencia, contaDestino);
+
+            Assert.Equal(-50, contaOrigem.Saldo);
+            Assert.Equal(valorTransferencia, contaDestino.Saldo);
+        }
+
+        [Fact]
+        public void Transferir_VariasTransferenciasDeveSubtrairValoresDeUmaContaSomarNaOutra()
+        {
+            var contaOrigem = new Conta("", 100, 100, eTipoConta.PessoaFisica);
+            var contaDestino = new Conta("", 0, 0, eTipoConta.PessoaFisica);
+
+            contaOrigem.Transferir(90, contaDestino);
+            Assert.Equal(10, contaOrigem.Saldo);
+            Assert.Equal(90, contaDestino.Saldo);
+
+            contaOrigem.Transferir(20, contaDestino);
+            Assert.Equal(-10, contaOrigem.Saldo);
+            Assert.Equal(110, contaDestino.Saldo);
         }
         #endregion
     }

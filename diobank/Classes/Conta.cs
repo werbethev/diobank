@@ -52,7 +52,19 @@ namespace diobank.Classes
             Console.WriteLine($"Saldo atual da conta de {Nome} é {Saldo}");
 
             return true;
-        } 
+        }
+
+        public void Transferir(double valorTransferencia, Conta contaDestino)
+        {
+            if (valorTransferencia <= 0)
+            {
+                Console.WriteLine($"O valor {valorTransferencia.ToString("0.00")} é inválido!");
+                return;
+            }
+
+            if (Sacar(valorTransferencia))
+                contaDestino.Depositar(valorTransferencia);
+        }
         #endregion
     }
 }

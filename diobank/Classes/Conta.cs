@@ -25,11 +25,7 @@ namespace diobank.Classes
         #region Metodos
         public void Depositar(double valorDeposito)
         {
-            if (valorDeposito <= 0)
-            {
-                Console.WriteLine($"O valor {valorDeposito.ToString("0.00")} é inválido!");
-                return;
-            }
+            if (!ValidarValores(valorDeposito)) return;
 
             Saldo += valorDeposito;
             Console.WriteLine($"Saldo atual da conta de {Nome} é {Saldo}");
@@ -37,11 +33,7 @@ namespace diobank.Classes
 
         public bool Sacar(double valorSaque)
         {
-            if (valorSaque <= 0)
-            {
-                Console.WriteLine($"O valor {valorSaque.ToString("0.00")} é inválido!");
-                return false;
-            }
+            if (!ValidarValores(valorSaque)) return false;
 
             if (Saldo - valorSaque < -Credito)
             {
@@ -57,15 +49,21 @@ namespace diobank.Classes
 
         public void Transferir(double valorTransferencia, Conta contaDestino)
         {
-            if (valorTransferencia <= 0)
-            {
-                Console.WriteLine($"O valor {valorTransferencia.ToString("0.00")} é inválido!");
-                return;
-            }
+            if (!ValidarValores(valorTransferencia)) return;
 
             if (Sacar(valorTransferencia))
                 contaDestino.Depositar(valorTransferencia);
         }
+
+        private bool ValidarValores(double valor) 
+        {
+            if (valor <= 0)
+            {
+                Console.WriteLine($"O valor {valor.ToString("0.00")} é inválido!");
+                return false;
+            }
+            return true;
+        } 
 
         #region Sobreescrita
         public override string ToString()

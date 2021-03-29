@@ -1,5 +1,5 @@
 ﻿using diobank.Classes;
-using diobank.Enum;
+using diobank.Enums;
 using Xunit;
 
 namespace diobankTeste.Classes

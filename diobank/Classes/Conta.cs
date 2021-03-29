@@ -1,4 +1,4 @@
-﻿using diobank.Enum;
+﻿using diobank.Enums;
 using System;
 using System.Text;
 

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using diobank.Classes;
+using System;
 
 namespace diobank
 {
@@ -6,7 +7,9 @@ namespace diobank
     {
         static void Main(string[] args)
         {
-            Console.WriteLine("Hello World!");
-        }
+            MenuConta.MostrarMenu();
+			Console.WriteLine("Obrigado por utilizar nossos serviços.");
+			Console.ReadLine();
+		}
     }
 }

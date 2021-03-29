@@ -1,8 +1,8 @@
-﻿namespace diobank.Enum
+﻿namespace diobank.Enums
 {
     public enum eTipoConta
     {
-        PessoaFisica,
+        PessoaFisica = 1,
         PessoaJuridica
     }
 }

@@ -80,9 +80,7 @@ namespace diobank.Classes
 
 			for (int i = 0; i < listContas.Count; i++)
 			{
-				Conta conta = listContas[i];
-				Console.Write("#{0} - ", i);
-				Console.WriteLine(conta);
+				Console.WriteLine($"#{i} - {listContas[i]}", i);
 			}
 		}
 		public static void MostrarMenu()
@@ -93,7 +91,8 @@ namespace diobank.Classes
 			{
 				if (opcaoUsuario.ToUpper() == CaracterLimparTela)
 					Console.Clear();
-				ExecutarOpcao(opcaoUsuario);
+				else
+					ExecutarOpcao(opcaoUsuario);
 				opcaoUsuario = ObterOpcaoUsuario();
 			}
 		}
